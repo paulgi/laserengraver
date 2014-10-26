@@ -89,9 +89,13 @@ options = {}
 defaults = {
 'header': """
 G90
+T1
+M104 S0
+G28 X0 Y0
 """,
-'footer': """G0 X0.000 Y0.000
-M05
+'footer': """G0 X0.000 Y0.000 F2200
+M400
+M104 S0
 M02
 """
 }
@@ -2645,7 +2649,7 @@ class Laserengraver(inkex.Effect):
             s, si = curve[i-1], curve[i]
             feed = f if lg not in ['G01','G02','G03'] else ''
             if s[1]    == 'move':
-                g += "G0" + c(si[0]) + "\n" + tool['gcode before path'] + "\n"
+                g += "G0" + c(si[0]) + " F2200\n" + tool['gcode before path'] + "\n"
                 lg = 'G00'
             elif s[1] == 'end':
                 g += tool['gcode after path'] + "\n"
@@ -3167,8 +3171,8 @@ class Laserengraver(inkex.Effect):
                     "feed": self.options.engraving_laser_speed,
                     "in trajectotry": "",
                     "out trajectotry": "",
-                    "gcode before path": "\nM03",
-                    "gcode after path": "M05\n",
+                    "gcode before path": "\nM400\nM104 S100",
+                    "gcode after path": "M400\nM104 S0\n",
                     "sog": "",
                     "spinlde rpm": "",
                     "CW or CCW": "",
