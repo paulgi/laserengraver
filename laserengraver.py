@@ -89,7 +89,6 @@ options = {}
 defaults = {
 'header': """
 G90
-####  T1 ###
 M104 S0
 G28 X0 Y0
 """,
